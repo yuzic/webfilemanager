@@ -61,7 +61,7 @@ return array(
 			'emulatePrepare' => true,
             'tablePrefix' => 'yii_',
 			'username' => 'root',
-			'password' => 'virtc2012true',
+			'password' => '',
 			'charset' => 'utf8',
             'initSQLs' => array(
                 'set time_zone = \'+00:00\';'
