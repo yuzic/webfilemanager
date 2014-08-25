@@ -1,5 +1,5 @@
 <div class="file-manager">
-    <div class="header">File Manager  </div>
+    <div class="header"><h1>File Manager</h1>  </div>
     <div class="header-panel">
         <div class="add-directory-filed">
             <input type="text" id="directory-name-selector" placeholder="<?php echo Yii::t('Site','Add Directory');?>">
@@ -13,5 +13,7 @@
         <ul id="file-list-container">
 
         </ul>
+
     </div>
+    <div class="footer-panel"></div>
 </div>

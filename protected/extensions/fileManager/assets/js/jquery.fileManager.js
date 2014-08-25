@@ -4,8 +4,6 @@
 			csrfTokenName: 'YII_CSRF_TOKEN',
 			csrfToken: '',
 			pickerSelector: '#uploadInput',
-			galleryIdPlaceholder: 'xxxGalleryIdxxx',
-			photoIdPlaceholder: 'xxxPhotoIdxxx',
 			createFileRoute: '',
 			createDirectoryRoute: '',
             deleteDirectoryRoute: '',
@@ -37,8 +35,9 @@
                 deleteFile(elementSelector.attr('entityId'), elementSelector.attr('type'));
             });
 
+            // up to directory
             $(document).on('click', '.directory-up', function() {
-                var lengthHistory = options.historyNaviagation.length;
+                options.historyNaviagation.pop();
                 getListFromDirectory(options.historyNaviagation.pop());
                 options.historyNaviagation.join();
             });

@@ -50,7 +50,7 @@ class FileManagerController extends EHttpController{
      * @param int $id
      * @return array
      */
-    public function listFileFromDirectory($id){
+    private function listFileFromDirectory($id){
         $directoryList = FileDirectory::model()->findAllByAttributes(array('parentId' => $id));
         $fileList = File::model()->findAllByAttributes(array('directoryId' => $id));
         $dataFileCollection = array();

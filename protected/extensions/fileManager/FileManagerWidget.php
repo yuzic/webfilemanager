@@ -28,14 +28,9 @@ class FileManagerWidget extends CWidget{
      */
     public $value;
     /**
-     * @var string id of gallery container
+     * @var string id of fileManager container
      */
     public $fileManagerContainerId = 'fileManagerContainer';
-    /**
-     * @var string path (above 'images') to which to save photos
-     */
-    public $initialSavePath;
-
     /**
      * Resolves name and ID of the input. Source property of the name and/or source property of the attribute
      * could be customized by specifying first and/or second parameter accordingly.
@@ -120,20 +115,10 @@ class FileManagerWidget extends CWidget{
         	echo CHtml::hiddenField($name, $this->value, $this->htmlOptions);
         }
 
-//        $galleryHtml = CJavaScript::encode(
-//        	CHtml::openTag('ul', array('id' => $this->fileManagerContainerId, 'class'=>'uploadList') )
-//        	.CHtml::openTag('li', array('class' => 'uploadifyButton', 'title' => Yii::t('Admin', 'Add Photo')))
-//        	.CHtml::fileField($this->fileManagerContainerId.'Uploader[]', null, array('id' => $this->fileManagerContainerId.'Uploader', 'class' => 'uploadInput', 'multiple'=>'multiple', 'accept'=>'image' ))
-//        	.CHtml::closeTag('li')
-//        	.CHtml::closeTag('ul')
-//        );
-        $galleryOptions = array(
+        $fileManagerOptions = array(
         	'csrfTokenName' => Yii::app()->request->csrfTokenName,
         	'csrfToken' => Yii::app()->request->csrfToken,
         	'pickerSelector' => '#'.$this->fileManagerContainerId.'Uploader',
-        	'defaultPhotoAlt' => Yii::t('Admin', 'Photo'),
-        	'galleryIdPlaceholder' => 'xxxGalleryIdxxx',
-        	'photoIdPlaceholder' => 'xxxPhotoIdxxx',
         	'createFileRoute' => $this->controller->createUrl('//fileManager/createFile'),
         	'createDirectoryRoute' => $this->controller->createUrl('//fileManager/createDirectory'),
         	'deleteFileRoute' => $this->controller->createUrl('//fileManager/deleteFile'),
@@ -142,7 +127,7 @@ class FileManagerWidget extends CWidget{
         	'galleryIdInputSelector' => '#'.$id,
         );
 
-        $gOptions = CJavaScript::encode($galleryOptions);
+        $gOptions = CJavaScript::encode($fileManagerOptions);
         $js = <<<EOD
 jQuery('#{$this->fileManagerContainerId}').fileManager($gOptions);
 EOD;

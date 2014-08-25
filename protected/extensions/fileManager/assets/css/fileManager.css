@@ -1,13 +1,13 @@
 .file-manager{
     padding: 5px;
     min-width: 800px;
-    width:800px;
+    width:810px;
     border-radius: 2px 2px 2px 2px;
 }
 .file-manager .header{
     width: 800px;
     height: 50px;
-    padding: 5px;
+    padding: 0px 0px 20px 10px;
     background: #36a9e1;
     color: white;
     font-size: 16px;
@@ -26,18 +26,6 @@
     padding: 5px;
 }
 
-.uploadInput{
-    margin: 0;
-    opacity: 0;
-    width: 30px;
-    filter: alpha(opacity=0);
-    transform: translate(-30px, 0) scale(4);
-    font-size: 23px;
-    direction: ltr;
-    cursor: pointer;
-    line-height: 20px;
-    cursor: pointer;
-}
 
 .file-manager .header-panel .add-directory-filed{
     float:left;
@@ -59,9 +47,6 @@
     width: 32px;
     height: 32px
 }
-.file-manager .header-panel .download-button:hover{
-
-}
 
 .file-manager .header-panel .add-directory-button:hover{
     border:1px solid #dddddd;
@@ -81,8 +66,8 @@
 }
 
 .file-manager .body-area{
-    min-width: 800px;
-    min-height: 500px;
+    min-width: 498px;
+    min-height: 400px;
     padding: 5px;
     background:#fff;
     border:1px solid #dddddd ;
@@ -135,6 +120,13 @@
     height: 14px;
 }
 
+.footer-panel{
+    min-height: 20px;
+    min-width: 798px;
+    background: #36a9e1;
+    border-radius: 2px 2px 2px 2px;
+}
+
 #progress_bar {
     margin: 10px 0;
     padding: 3px;
@@ -153,4 +145,17 @@
     background-color: #99ccff;
     height: auto;
     width: 0;
+}
+
+.uploadInput{
+    margin: 0;
+    opacity: 0;
+    width: 30px;
+    filter: alpha(opacity=0);
+    transform: translate(-30px, 0) scale(4);
+    font-size: 23px;
+    direction: ltr;
+    cursor: pointer;
+    line-height: 20px;
+    cursor: pointer;
 }

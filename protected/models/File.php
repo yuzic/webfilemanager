@@ -7,6 +7,7 @@
  * @property string $id
  * @property string $name
  * @property string $remoteIp
+ * @property string $size
  * @property string $created
  * @property string $modified
  *
