@@ -1,11 +1,11 @@
 <?php
 class FileManagerWidget extends CWidget{
-	/**
-	 * Path to assets for this widget
-	 * The widget will publish its own directory if none is specified
-	 * @var string
-	 */
-	public $assetsPath = null;
+    /**
+     * Path to assets for this widget
+     * The widget will publish its own directory if none is specified
+     * @var string
+     */
+    public $assetsPath = null;
     /**
      * @var array the HTML attributes that should be rendered in the HTML tag representing the JUI widget.
      */
@@ -43,25 +43,25 @@ class FileManagerWidget extends CWidget{
      */
     protected function resolveNameID($nameProperty='name',$attributeProperty='attribute')
     {
-    	if($this->$nameProperty!==null)
-    		$name=$this->$nameProperty;
-    	elseif(isset($this->htmlOptions[$nameProperty]))
-    	$name=$this->htmlOptions[$nameProperty];
-    	elseif($this->hasModel())
-    	$name=CHtml::activeName($this->model,$this->$attributeProperty);
-    	else
-    		throw new CException(Yii::t('zii','{class} must specify "model" and "{attribute}" or "{name}" property values.',
-    			array('{class}'=>get_class($this),'{attribute}'=>$attributeProperty,'{name}'=>$nameProperty)));
+        if($this->$nameProperty!==null)
+            $name=$this->$nameProperty;
+        elseif(isset($this->htmlOptions[$nameProperty]))
+            $name=$this->htmlOptions[$nameProperty];
+        elseif($this->hasModel())
+            $name=CHtml::activeName($this->model,$this->$attributeProperty);
+        else
+            throw new CException(Yii::t('zii','{class} must specify "model" and "{attribute}" or "{name}" property values.',
+                array('{class}'=>get_class($this),'{attribute}'=>$attributeProperty,'{name}'=>$nameProperty)));
 
-    	if(($id=$this->getId(false))===null)
-    	{
-    		if(isset($this->htmlOptions['id']))
-    			$id=$this->htmlOptions['id'];
-    		else
-    			$id=CHtml::getIdByName($name);
-    	}
+        if(($id=$this->getId(false))===null)
+        {
+            if(isset($this->htmlOptions['id']))
+                $id=$this->htmlOptions['id'];
+            else
+                $id=CHtml::getIdByName($name);
+        }
 
-    	return array($name,$id);
+        return array($name,$id);
     }
 
     /**
@@ -69,62 +69,62 @@ class FileManagerWidget extends CWidget{
      */
     protected function hasModel()
     {
-    	return $this->model instanceof CModel && $this->attribute!==null;
+        return $this->model instanceof CModel && $this->attribute!==null;
     }
 
     public function init()
     {
-    	parent::init();
-    	if ($this->assetsPath === null) {
-    		$dir = dirname(__FILE__) . '/assets';
-    		$this->assetsPath = Yii::app()->assetManager->publish($dir);
-    	}
+        parent::init();
+        if ($this->assetsPath === null) {
+            $dir = dirname(__FILE__) . '/assets';
+            $this->assetsPath = Yii::app()->assetManager->publish($dir);
+        }
 
-    	$this->registerClientScript();
+        $this->registerClientScript();
 
     }
 
     /**
-	 * Registers necessary client scripts.
-	 */
-	public function registerClientScript() {
-		$cs = Yii::app()->getClientScript();
-		$cs->registerCoreScript('jquery');
-		$cs->registerCssFile($this->assetsPath.'/css/fileManager.css');
-		$cs->registerScriptFile($this->assetsPath.'/js/jquery.fileManager.js', CClientScript::POS_END);
-	}
+     * Registers necessary client scripts.
+     */
+    public function registerClientScript() {
+        $cs = Yii::app()->getClientScript();
+        $cs->registerCoreScript('jquery');
+        $cs->registerCssFile($this->assetsPath.'/css/fileManager.css');
+        $cs->registerScriptFile($this->assetsPath.'/js/jquery.fileManager.js', CClientScript::POS_END);
+    }
 
     public function run()
     {
         list($name, $id) = $this->resolveNameID();
 
         if (isset($this->htmlOptions['id'])) {
-        	$id = $this->htmlOptions['id'];
+            $id = $this->htmlOptions['id'];
         }
         else {
-        	$this->htmlOptions['id']=$id;
+            $this->htmlOptions['id']=$id;
         }
         if (isset($this->htmlOptions['name'])) {
-        	$name = $this->htmlOptions['name'];
+            $name = $this->htmlOptions['name'];
         }
 
         if ($this->hasModel()) {
-        	echo CHtml::activeHiddenField($this->model, $this->attribute, $this->htmlOptions);
+            echo CHtml::activeHiddenField($this->model, $this->attribute, $this->htmlOptions);
         }
         else {
-        	echo CHtml::hiddenField($name, $this->value, $this->htmlOptions);
+            echo CHtml::hiddenField($name, $this->value, $this->htmlOptions);
         }
 
         $fileManagerOptions = array(
-        	'csrfTokenName' => Yii::app()->request->csrfTokenName,
-        	'csrfToken' => Yii::app()->request->csrfToken,
-        	'pickerSelector' => '#'.$this->fileManagerContainerId.'Uploader',
-        	'createFileRoute' => $this->controller->createUrl('//fileManager/createFile'),
-        	'createDirectoryRoute' => $this->controller->createUrl('//fileManager/createDirectory'),
-        	'deleteFileRoute' => $this->controller->createUrl('//fileManager/deleteFile'),
-        	'deleteDirectoryRoute' => $this->controller->createUrl('//fileManager/deleteDirectory'),
-        	'listFile' => $this->controller->createUrl('//fileManager/listFile'),
-        	'galleryIdInputSelector' => '#'.$id,
+            'csrfTokenName' => Yii::app()->request->csrfTokenName,
+            'csrfToken' => Yii::app()->request->csrfToken,
+            'pickerSelector' => '#'.$this->fileManagerContainerId.'Uploader',
+            'createFileRoute' => $this->controller->createUrl('//fileManager/createFile'),
+            'createDirectoryRoute' => $this->controller->createUrl('//fileManager/createDirectory'),
+            'deleteFileRoute' => $this->controller->createUrl('//fileManager/deleteFile'),
+            'deleteDirectoryRoute' => $this->controller->createUrl('//fileManager/deleteDirectory'),
+            'listFile' => $this->controller->createUrl('//fileManager/listFile'),
+            'galleryIdInputSelector' => '#'.$id,
         );
 
         $gOptions = CJavaScript::encode($fileManagerOptions);

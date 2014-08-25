@@ -30,37 +30,6 @@ class FileManagerController extends EHttpController{
         );
     }
 
-    public function deleteFile($path){
-        $path = Yii::getPathOfAlias('webroot') . '/' .$this->uploadPath .'/'.$path;
-        return unlink($path);
-    }
-
-    public function deleteDir($path){
-        $uploadPath = Yii::getPathOfAlias('webroot') . '/' .$this->uploadPath;
-        if ($path !== $uploadPath){
-            $callback = array(__CLASS__, __FUNCTION__);
-            return is_file($path)
-                ? unlink($path)
-                : array_map($callback, glob($path.'/*')) == rmdir($path);
-        }
-    }
-
-    /**
-     * List file and directory
-     * @param int $id
-     * @return array
-     */
-    private function listFileFromDirectory($id){
-        $directoryList = FileDirectory::model()->findAllByAttributes(array('parentId' => $id));
-        $fileList = File::model()->findAllByAttributes(array('directoryId' => $id));
-        $dataFileCollection = array();
-        foreach ($directoryList as $directory)
-            $dataFileCollection[] = $directory->jsonSerialize();
-        foreach ($fileList as $file)
-            $dataFileCollection[] = $file->jsonSerialize();
-        return $dataFileCollection;
-    }
-
     public function actionCreateDirectory() {
         $model = new FileDirectory();
         $fileDirectory = FileDirectory::model()->findByPk($_POST['parentId']);
@@ -84,17 +53,6 @@ class FileManagerController extends EHttpController{
             $this->renderAjax('create_json', array('model' => $model));
         }
     }
-
-    public function actionlistFile(){
-        if (isset($_POST['directoryId'])){
-            $directoryId = $_POST['directoryId'];
-        }else{
-            $directoryId = 1;
-        }
-        $this->headers['HTTP/1.1 201 Created'] = '';
-        $this->renderAjax('view_json',array('model' => $this->listFileFromDirectory($directoryId)));
-    }
-
 
     public function actionCreateFile() {
         $model = new File;
@@ -131,7 +89,6 @@ class FileManagerController extends EHttpController{
             }
             $path = Yii::getPathOfAlias('webroot') . '/' .$this->uploadPath .'/'.$model->path;
             $this->deleteDir($path);
-            //$this->deleteFile($model->path);
             if (!$model->delete()){
                 $this->headers['HTTP/1.1 400 Bad request'] = '';
             }
@@ -158,7 +115,7 @@ class FileManagerController extends EHttpController{
             }
             $this->deleteFile($model->directory->path. '/' .$model->name);
             if ($model->delete()){
-
+                $this->headers['HTTP/1.1 201 Created'] = '';
             }else{
                 $this->headers['HTTP/1.1 400 Bad request'] = '';
             }
@@ -173,6 +130,53 @@ class FileManagerController extends EHttpController{
         }
         else {
             throw new CHttpException(403, Yii::t('yii','You are not authorized to perform this action.'));
+        }
+    }
+
+    public function actionlistFile(){
+        $directoryId = isset($_POST['directoryId']) ? $_POST['directoryId'] : 1;
+        $this->headers['HTTP/1.1 201 Created'] = '';
+        $this->renderAjax('view_json',array('model' => $this->listFileFromDirectory($directoryId)));
+    }
+
+    /**
+     * List file and directory
+     * @param int $id - id Directory
+     * @return array
+     */
+    private function listFileFromDirectory($id){
+        $directoryList = FileDirectory::model()->findAllByAttributes(array('parentId' => $id));
+        $fileList = File::model()->findAllByAttributes(array('directoryId' => $id));
+        $dataFileCollection = array();
+        foreach ($directoryList as $directory)
+            $dataFileCollection[] = $directory->jsonSerialize();
+        foreach ($fileList as $file)
+            $dataFileCollection[] = $file->jsonSerialize();
+        return $dataFileCollection;
+    }
+
+    /**
+     * delete file from path
+     * @param string $path
+     * @return bool
+     */
+    public function deleteFile($path){
+        $path = Yii::getPathOfAlias('webroot') . '/' .$this->uploadPath .'/'.$path;
+        return unlink($path);
+    }
+
+    /**
+     * delete recursive path and files
+     * @param string $path - local path to direcory
+     * @return bool
+     */
+    public function deleteDir($path){
+        $uploadPath = Yii::getPathOfAlias('webroot') . '/' .$this->uploadPath;
+        if ($path !== $uploadPath){
+            $callback = array(__CLASS__, __FUNCTION__);
+            return is_file($path)
+                ? unlink($path)
+                : array_map($callback, glob($path.'/*')) == rmdir($path);
         }
     }
 }

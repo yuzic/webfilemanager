@@ -12,7 +12,7 @@
 			galleryIdInputSelector: '',
             directoryNameSelector:'#directory-name-selector',
             listContainer:'#file-list-container',
-            directoryId:1,
+            directoryId: 1,
             historyNaviagation:[]
 		}, settings);
 		
@@ -25,6 +25,7 @@
                 createDirectory();
 		    });
 
+            // event by chanage upload button
             $(document).on('change', options.pickerSelector, function() {
                 uploadFile();
             });
@@ -91,6 +92,9 @@
                        data: data,
                        success: function(data) {
                             getListFromDirectory(options.directoryId);
+                       },
+                       error: function() {
+                           console.log('failed create firecory');
                        }
                    });
                }
@@ -109,6 +113,9 @@
                         for (var i=0; i < data.model.length; i++) {
                             addFileToContainer(data.model[i]);
                         }
+                    },
+                    error: function() {
+                        console.log('failed to get list from directory');
                     }
                 });
             }
@@ -147,7 +154,10 @@
 	    	  			 if (response) {
 	    	  				 $('#preload_' + id).remove();
 	    	  			 }  
-	    	  		 }
+	    	  		 },
+                    error: function() {
+                        console.log('failed to delete file');
+                    }
 	    	  	 });
 		    };	
 		    
@@ -162,7 +172,7 @@
 	    		    	}
 	    	  		 },
 	    	  		 error: function() {
-	    	  			 console.log('failed to load gallery');
+	    	  			 console.log('failed to load list file');
 	    	  		 }
 	    	  	 });
 		    };
