@@ -1,0 +1,156 @@
+.file-manager{
+    padding: 5px;
+    min-width: 800px;
+    width:800px;
+    border-radius: 2px 2px 2px 2px;
+}
+.file-manager .header{
+    width: 800px;
+    height: 50px;
+    padding: 5px;
+    background: #36a9e1;
+    color: white;
+    font-size: 16px;
+    overflow: hidden;
+    -webkit-border-radius: 2px 2px 0 0;
+    -moz-border-radius: 2px 2px 0 0;
+    border-radius: 2px 2px 2px 2px;
+}
+
+.file-manager .header-panel{
+    height: 30px;
+    color: #444444;
+    background: #dddddd;
+    width: 800px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.uploadInput{
+    margin: 0;
+    opacity: 0;
+    width: 30px;
+    filter: alpha(opacity=0);
+    transform: translate(-30px, 0) scale(4);
+    font-size: 23px;
+    direction: ltr;
+    cursor: pointer;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.file-manager .header-panel .add-directory-filed{
+    float:left;
+}
+
+.file-manager .header-panel .add-directory-button{
+    background-image: url('../images/add.png');
+    float:left;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+}
+
+.file-manager .header-panel .download-button{
+    background-image: url('../images/down.png');
+    float:left;
+    margin-left: 5px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px
+}
+.file-manager .header-panel .download-button:hover{
+
+}
+
+.file-manager .header-panel .add-directory-button:hover{
+    border:1px solid #dddddd;
+}
+
+.file-manager .header-panel .delete-button{
+    background-image: url('../images/del.png');
+    float:left;
+    margin-left: 10px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+}
+
+.file-manager .header-panel .delete-button:hover{
+    border:1px solid #dddddd;
+}
+
+.file-manager .body-area{
+    min-width: 800px;
+    min-height: 500px;
+    padding: 5px;
+    background:#fff;
+    border:1px solid #dddddd ;
+    border-radius: 2px 2px 2px 2px;
+}
+.file-manager .body-area .directory-up{
+    cursor: pointer;
+ }
+
+.file-manager .body-area .directory-up:hover{
+    background-color:#E6F2FF;
+    cursor: pointer;
+}
+
+.file-manager .body-area > ul{
+    margin:0px;
+    padding: 0px;
+}
+.file-manager .body-area > ul > li{
+    list-style: none;
+    height: 15px;
+    padding: 2px 0px 2px  0px;
+    border-bottom: 1px solid #dadada;
+}
+
+.file-manager .body-area > ul > li:hover{
+    background-color:#E6F2FF;
+    cursor: pointer;
+}
+
+.file-manager .body-area > ul > li .title-list-element{
+    clear: left;
+    float:left;
+}
+.file-manager .body-area > ul > li .delete-file-button{
+    background-image: url('../images/14_delete.gif');
+    float:left;
+    margin-left: 10px;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+}
+
+.file-manager .body-area > ul > li .save-file-button{
+    background-image: url('../images/save.png');
+    float:left;
+    margin-left: 10px;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
+}
+
+#progress_bar {
+    margin: 10px 0;
+    padding: 3px;
+    border: 1px solid #000;
+    font-size: 14px;
+    clear: both;
+    opacity: 0;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+}
+#progress_bar.loading {
+    opacity: 1.0;
+}
+#progress_bar .percent {
+    background-color: #99ccff;
+    height: auto;
+    width: 0;
+}
