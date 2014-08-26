@@ -7,57 +7,93 @@
  */
 
 class DirectoryBehavior extends CBehavior{
+    /**
+     * Upload path to directory
+     * @var string
+     */
     public $uploadPath = 'fileManager';
+    /**
+     * Directory name new path
+     * @var string
+     */
     public $directoryName = null;
+    /**
+     * Directory Path
+     * @var string
+     */
     public $directoryPath = null;
 
-
-    public function events() {
+    public function events()
+    {
     	return array_merge(parent::events(), array(
     		'onBeforeSave' => 'beforeSave',
     	));
     }
 
-
-    private function isValidPath($webPath, $path){
-    	$path = pathinfo(realpath($path), PATHINFO_DIRNAME );
-    	if (strlen($webPath) == strlen($path) && is_dir($path) ){
-    		return true;
-    	}else{
-    		return false;
-    	}
-    }
-
-
     public function beforeSave($event){
-        $directoryPath = null;
-        if ($this->directoryPath !== null){
-            $directoryPath = '/' .$this->directoryPath .'/';
-        }
-        $pathUpload = Yii::getPathOfAlias('webroot') .'/'. $this->uploadPath . $directoryPath;
-        $fullPathUpload  = $pathUpload . '/' . $this->directoryName;
-        if ($this->directoryName !== null){
-            if (file_exists($fullPathUpload)){
+        if ($this->getDirectoryName() !== null)
+        {
+            if (file_exists($this->getFullPath()))
+            {
                 $this->owner->addError('Error create direcotory', Yii::t('Admin', 'Directory exist'));
                 $event->isValid = false;
                 return false;
             }
-            if (mkdir($fullPathUpload)){
-                $this->owner->path = !empty($this->directoryPath)
-                    ? $this->directoryPath .'/'. $this->directoryName
-                    :  $this->directoryName;
-                $this->owner->name = $this->directoryName;
+            if (mkdir($this->getFullPath()))
+            {
+                $this->owner->path = $this->getSavePath();
+                $this->owner->name = $this->getDirectoryName();
                 $event->isValid = true;
                 return true;
-            }else{
+            }
+            else
+            {
                 $this->owner->addError('create direcotory', Yii::t('Admin', 'Unable to create directory to server'));
                 $event->isValid = false;
             }
-        }else{
-            $event->isValid = false;
+        }
+        else
+        {
             $this->owner->addError('uploadFile', Yii::t('Admin', 'directoryName is empty'));
+            $event->isValid = false;
             return false;
         }
+    }
+
+    private function getSavePath()
+    {
+        return !empty($this->directoryPath)
+            ? $this->getDirectoryPath() . $this->getDirectoryName()
+            :  $this->getDirectoryName();
+    }
+
+    private function getFullPath()
+    {
+        return $this->getWebRootPath() .'/'. $this->getUploadPath(). $this->getDirectoryPath(). '/'. $this->getDirectoryName();
+    }
+
+    private function getDirectoryName()
+    {
+        return $this->directoryName;
+    }
+
+    private function getWebRootPath()
+    {
+        return Yii::getPathOfAlias('webroot');
+    }
+
+    private function getUploadPath()
+    {
+        return $this->uploadPath;
+    }
+
+    private function getDirectoryPath()
+    {
+        $directoryPath = null;
+        if ($this->directoryPath !== null){
+            $directoryPath = '/' .$this->directoryPath .'/';
+        }
+        return $directoryPath;
     }
 
 }

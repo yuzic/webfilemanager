@@ -1,5 +1,6 @@
 <?php
-class FileManagerWidget extends CWidget{
+class FileManagerWidget extends CWidget
+{
     /**
      * Path to assets for this widget
      * The widget will publish its own directory if none is specified
@@ -31,6 +32,7 @@ class FileManagerWidget extends CWidget{
      * @var string id of fileManager container
      */
     public $fileManagerContainerId = 'fileManagerContainer';
+
     /**
      * Resolves name and ID of the input. Source property of the name and/or source property of the attribute
      * could be customized by specifying first and/or second parameter accordingly.
@@ -124,7 +126,7 @@ class FileManagerWidget extends CWidget{
             'deleteFileRoute' => $this->controller->createUrl('//fileManager/deleteFile'),
             'deleteDirectoryRoute' => $this->controller->createUrl('//fileManager/deleteDirectory'),
             'listFile' => $this->controller->createUrl('//fileManager/listFile'),
-            'galleryIdInputSelector' => '#'.$id,
+            'fileIdInputSelector' => '#'.$id,
         );
 
         $gOptions = CJavaScript::encode($fileManagerOptions);

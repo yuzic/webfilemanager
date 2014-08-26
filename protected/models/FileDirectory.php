@@ -39,7 +39,10 @@ class FileDirectory extends CActiveRecord implements JsonSerializable
         // will receive user inputs.
         return array(
             array('path, name, parentId', 'default', 'value' => null),
+            array('parentId', 'required'),
             array('name, path', 'length', 'max'=>255),
+            array('parentId', 'numerical', 'integerOnly' => true, 'skipOnError' => true),
+            array('parentId', 'exist', 'className' => 'fileDirectory', 'attributeName' => 'id', 'skipOnError' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
             array('id, name, path, created, modified, modifierId', 'safe', 'on'=>'search'),
@@ -54,7 +57,7 @@ class FileDirectory extends CActiveRecord implements JsonSerializable
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-
+            'parent' => array(self::BELONGS_TO, 'fileDirectory', 'parentId'),
         );
     }
 
@@ -64,7 +67,9 @@ class FileDirectory extends CActiveRecord implements JsonSerializable
     public function attributeLabels()
     {
         return array(
-
+            'id' => 'ID',
+            'parentId' => 'Parent',
+            'title' => Yii::t('Site', 'Name'),
         );
     }
 

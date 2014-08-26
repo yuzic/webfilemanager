@@ -9,14 +9,14 @@
             deleteDirectoryRoute: '',
 			deleteFileRoute: '',
             listFile: '',
-			galleryIdInputSelector: '',
+			fileIdInputSelector: '',
             directoryNameSelector:'#directory-name-selector',
             listContainer:'#file-list-container',
             directoryId: 1,
             historyNaviagation:[]
 		}, settings);
 		
-		var galleryInput = $(options.galleryIdInputSelector);
+		var galleryInput = $(options.fileIdInputSelector);
 		
 		return this.each(function() {
 			var self = $(this);

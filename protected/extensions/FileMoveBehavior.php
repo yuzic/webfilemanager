@@ -7,42 +7,62 @@
  */
 
 class FileMoveBehavior extends CBehavior{
+    /**
+     * Upload path  Files
+     * @var string
+     */
     public $uploadPath = 'fileManager';
+    /**
+     * Directory Path  files
+     * @var string
+     */
     public $directoryPath = null;
 
-    public function events() {
+    public function events()
+    {
     	return array_merge(parent::events(), array(
     		'onBeforeSave' => 'beforeSave',
     	));
     }
 
-
-    private function isValidPath($webPath, $path){
-    	$path = pathinfo(realpath($path), PATHINFO_DIRNAME );
-    	if (strlen($webPath) == strlen($path) && is_dir($path) ){
-    		return true;
-    	}else{
-    		return false;
-    	}
+    public function beforeSave($event)
+    {
+        $fileName = $_FILES['File']['name']['uploadFile'];
+        if (move_uploaded_file($_FILES['File']['tmp_name']['uploadFile'], $this->getFullPath() .'/'. $fileName ))
+        {
+            $this->owner->name = $fileName;
+            $this->owner->size = filesize($this->getFullPath() .'/'. $fileName);
+            $event->isValid = true;
+            return true;
+        }
+        else
+        {
+            $this->owner->addError('uploadFile', Yii::t('Admin', 'Unable to save file to server'));
+            $event->isValid = false;
+            return false;
+        }
     }
 
+    private function getFullPath()
+    {
+        return $this->getWebRootPath() .'/'. $this->getUploadPath() . $this->getDirectoryPath();
+    }
 
-    public function beforeSave($event){
-        $directoryPath = null;
-        if ($this->directoryPath !== null){
-            $directoryPath = '/' .$this->directoryPath;
-        }
-        $filePathUpload = Yii::getPathOfAlias('webroot') .'/'. $this->uploadPath .$directoryPath;
-        $fileName = $_FILES['File']['name']['uploadFile'];
-        if (move_uploaded_file($_FILES['File']['tmp_name']['uploadFile'], $filePathUpload.'/'.$fileName )) {
-             $this->owner->name = $fileName;
-             $this->owner->size = filesize($filePathUpload.'/'.$fileName);
-             return true;
-        }
-        else {
-                $this->owner->addError('uploadFile', Yii::t('Admin', 'Unable to save file to server'));
-                $event->isValid = false;
-                return false;
-            }
-        }
+    private function getWebRootPath()
+    {
+        return Yii::getPathOfAlias('webroot');
+    }
+
+    private function getUploadPath()
+    {
+        return $this->uploadPath;
+    }
+
+    private function getDirectoryPath()
+    {
+        if ($this->directoryPath !== null)
+            $this->directoryPath = '/' . $this->directoryPath;
+        return $this->directoryPath;
+    }
+
 }

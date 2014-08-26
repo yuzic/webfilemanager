@@ -39,9 +39,12 @@ class File extends CActiveRecord implements JsonSerializable
 		return array(
 			array('name, size, remoteIp, directoryId', 'default', 'value' => null),
 			array('name, remoteIp', 'length', 'max'=>255),
+            array('directoryId, remoteIp', 'required'),
+            array('directoryId', 'numerical', 'integerOnly' => true, 'skipOnError' => true),
+            array('directoryId', 'exist', 'className' => 'fileDirectory', 'attributeName' => 'id', 'skipOnError' => true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, name, created, modified, modifierId', 'safe', 'on'=>'search'),
+			array('id, name, created, modified', 'safe', 'on'=>'search'),
 		);
 	}
 

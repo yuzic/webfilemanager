@@ -1,6 +1,6 @@
 <?php
-$response = array('model' => $model);
-//if ($model->hasErrors()) {
-//	$response['errors'] = $model->getErrors();
-//}
+$response = array('model' => $model->jsonSerialize());
+if ($model->hasErrors()) {
+	$response['errors'] = $model->getErrors();
+}
 echo json_encode($response, true);
